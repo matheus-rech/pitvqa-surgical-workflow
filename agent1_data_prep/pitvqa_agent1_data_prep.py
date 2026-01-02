@@ -714,42 +714,77 @@ class PitVQADataPrep:
         """
         if self.config.skip_validation:
             self.logger.info("Skipping validation (--skip-validation flag)")
-            return True, {}
+            return True, {"passed": True}
 
         with self._step_timer("validation"):
-            validation_result = self.validator.validate_all()
+            # Use DataValidator's validate_all method
+            qa_pairs_file = self.qa_output_dir / "qa_pairs.json"
 
-            self.stats.validation_passed = validation_result["passed"]
-            self.stats.validation_errors = validation_result.get("errors", [])
-            self.stats.validation_warnings = validation_result.get("warnings", [])
+            validation_report = self.validator.validate_all(
+                frames_dir=self.frames_dir,
+                qa_pairs_file=qa_pairs_file if qa_pairs_file.exists() else None,
+                dataset=None  # Dataset validation is done separately
+            )
 
-            if validation_result["passed"]:
+            self.stats.validation_passed = validation_report.overall_valid
+
+            # Collect errors and warnings
+            errors = []
+            warnings = []
+
+            for result in [validation_report.frames_result, validation_report.qa_pairs_result]:
+                if result:
+                    errors.extend([str(e) for e in result.errors])
+                    warnings.extend([str(w) for w in result.warnings])
+
+            self.stats.validation_errors = errors
+            self.stats.validation_warnings = warnings
+
+            if validation_report.overall_valid:
                 self.logger.info("Validation PASSED")
             else:
                 self.logger.warning("Validation FAILED")
-                for error in self.stats.validation_errors:
-                    self.logger.error(f"  Error: {error}")
+                for error in errors[:10]:  # Show first 10 errors
+                    self.logger.error(f"  {error}")
 
-            for warning in self.stats.validation_warnings:
-                self.logger.warning(f"  Warning: {warning}")
+            for warning in warnings[:10]:  # Show first 10 warnings
+                self.logger.warning(f"  {warning}")
 
-            return validation_result["passed"], validation_result
+            # Generate and log the full report
+            report_text = self.validator.generate_report(validation_report)
+            self.logger.debug(report_text)
+
+            # Export JSON report
+            report_json_path = self.config.output_dir / "validation_report.json"
+            self.validator.export_report_json(validation_report, report_json_path)
+            self.logger.info(f"Validation report saved to: {report_json_path}")
+
+            return validation_report.overall_valid, {
+                "passed": validation_report.overall_valid,
+                "errors": errors,
+                "warnings": warnings,
+                "total_errors": validation_report.total_errors,
+                "total_warnings": validation_report.total_warnings
+            }
 
     def step6_save_dataset(self, dataset: Any) -> str:
         """
         Step 6: Save dataset and optionally push to Hub.
 
         Args:
-            dataset: HuggingFace dataset to save
+            dataset: HuggingFace DatasetDict to save
 
         Returns:
             Path or URL where dataset was saved
         """
         with self._step_timer("dataset_saving"):
-            # Save locally
-            local_path = self.config.output_dir / "dataset"
-            self.dataset_builder.save(dataset, local_path)
-            self.logger.info(f"Dataset saved to: {local_path}")
+            # Save locally using DatasetBuilder API
+            saved_path = self.dataset_builder.save_to_disk(
+                dataset,
+                output_dir=self.dataset_dir,
+                save_format="parquet"
+            )
+            self.logger.info(f"Dataset saved to: {saved_path}")
 
             # Push to Hub if requested
             if self.config.push_to_hub:
@@ -759,16 +794,19 @@ class PitVQADataPrep:
                     hub_url = self.dataset_builder.push_to_hub(
                         dataset,
                         repo_id=self.config.push_to_hub,
-                        token=self.config.hf_token
+                        token=self.config.hf_token,
+                        private=False
                     )
                     self.logger.info(f"Successfully pushed to: {hub_url}")
                     return hub_url
 
                 except Exception as e:
                     self.logger.error(f"Failed to push to Hub: {e}")
-                    return str(local_path)
+                    import traceback
+                    self.logger.debug(traceback.format_exc())
+                    return str(saved_path)
 
-            return str(local_path)
+            return str(saved_path)
 
     def generate_report(self) -> Dict[str, Any]:
         """
