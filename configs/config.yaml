@@ -1,0 +1,168 @@
+# PitVQA Surgical Workflow Configuration
+# ========================================
+
+# Project Settings
+project:
+  name: "pitvqa-surgical-workflow"
+  description: "Visual Question Answering for Pituitary Surgery"
+  version: "0.1.0"
+
+# Data Configuration
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  annotations_dir: "data/annotations"
+
+  # Image settings
+  image_size: [224, 224]
+  image_format: "png"
+
+  # Video processing
+  video:
+    fps: 1  # Frames per second to extract
+    formats: [".mp4", ".avi", ".mov"]
+
+  # Dataset splits
+  splits:
+    train: 0.7
+    val: 0.15
+    test: 0.15
+
+  # Normalization (ImageNet)
+  normalize:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+
+# Model Configuration
+model:
+  # Vision encoder
+  vision:
+    name: "resnet50"  # Options: resnet50, resnet101, vit_base, vit_large
+    pretrained: true
+    freeze_layers: 0  # Number of layers to freeze (0 = train all)
+    output_dim: 768
+
+  # Text encoder
+  text:
+    name: "bert-base-uncased"  # Options: bert-base-uncased, t5-base, biobert
+    pretrained: true
+    max_seq_length: 128
+    output_dim: 768
+
+  # Fusion module
+  fusion:
+    type: "cross_attention"  # Options: cross_attention, concat, bilinear
+    hidden_dim: 512
+    num_heads: 8
+    num_layers: 2
+    dropout: 0.1
+
+  # Answer decoder
+  decoder:
+    type: "classifier"  # Options: classifier, generative
+    num_classes: 100  # For classifier type
+    hidden_dim: 256
+
+# Training Configuration
+training:
+  # Basic settings
+  epochs: 50
+  batch_size: 32
+  gradient_accumulation_steps: 1
+
+  # Optimizer
+  optimizer:
+    name: "adamw"
+    learning_rate: 1.0e-4
+    weight_decay: 0.01
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+
+  # Learning rate scheduler
+  scheduler:
+    name: "cosine"  # Options: cosine, linear, step, plateau
+    warmup_epochs: 5
+    min_lr: 1.0e-6
+
+  # Loss function
+  loss:
+    name: "cross_entropy"  # Options: cross_entropy, focal, label_smoothing
+    label_smoothing: 0.1
+
+  # Regularization
+  dropout: 0.1
+  mixup_alpha: 0.0  # 0 = disabled
+
+  # Early stopping
+  early_stopping:
+    enabled: true
+    patience: 10
+    min_delta: 0.001
+    monitor: "val_accuracy"
+
+# Evaluation Configuration
+evaluation:
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1_score
+
+  # Per question type evaluation
+  by_question_type: true
+
+  # Confusion matrix
+  save_confusion_matrix: true
+
+# Hardware Configuration
+hardware:
+  device: "cuda"  # Options: cuda, mps, cpu
+  num_workers: 4
+  pin_memory: true
+  mixed_precision: true  # Use AMP for faster training
+
+# Logging and Checkpoints
+logging:
+  log_dir: "logs"
+  log_interval: 10  # Log every N batches
+
+  # Experiment tracking (optional)
+  wandb:
+    enabled: false
+    project: "pitvqa"
+    entity: null
+
+  tensorboard:
+    enabled: true
+
+checkpoints:
+  save_dir: "checkpoints"
+  save_best: true
+  save_last: true
+  save_every_n_epochs: 5
+
+# Inference Configuration
+inference:
+  batch_size: 64
+  use_tta: false  # Test-time augmentation
+  ensemble: false
+
+# Question Types (Surgical VQA specific)
+question_types:
+  - instrument_recognition
+  - phase_identification
+  - anatomy_visibility
+  - action_recognition
+  - safety_assessment
+  - bleeding_detection
+  - tool_interaction
+
+# Surgical Phases (for phase recognition)
+surgical_phases:
+  - preparation
+  - nasal_access
+  - sphenoid_opening
+  - tumor_exposure
+  - tumor_resection
+  - hemostasis
+  - closure
