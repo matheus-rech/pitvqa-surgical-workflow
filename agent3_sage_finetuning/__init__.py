@@ -18,15 +18,15 @@ Components:
 Usage:
     # Full pipeline
     python -m agent3_sage_finetuning.pitvqa_agent3_sage_finetuning \\
-        --input-dataset matheus-rech/pitvqa-processed \\
+        --input-dataset mmrech/pitvqa-processed \\
         --output-dir outputs/pitvqa-sage \\
         --method sft \\
         --push-to-hub
 
     # Generate HF Skills training prompt
     python -m agent3_sage_finetuning.hf_skills_trainer \\
-        --dataset matheus-rech/pitvqa-sage-sft \\
-        --output-name matheus-rech/pitvqa-sage-surgical \\
+        --dataset mmrech/pitvqa-sage-sft \\
+        --output-name mmrech/pitvqa-sage-surgical \\
         --method sft \\
         --generate-prompt
 

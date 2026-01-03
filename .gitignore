@@ -65,3 +65,8 @@ wandb/
 # Secrets
 .env
 *.key
+# Large files
+notebooks/data/pitvqa_download/
+notebooks/data/pitvqa_data/
+*.zip
+colab_*.png

@@ -44,17 +44,17 @@ Pipeline:
 │                    │                                                        │
 │                    ▼                                                        │
 │            PitVQA-SAGE Model                                               │
-│     (matheus-rech/pitvqa-sage-surgical)                                    │
+│     (mmrech/pitvqa-sage-surgical)                                    │
 └─────────────────────────────────────────────────────────────────────────────┘
 
 Usage:
     python -m agent3_sage_finetuning.pitvqa_agent3_sage_finetuning \\
-        --input-dataset matheus-rech/pitvqa-processed \\
+        --input-dataset mmrech/pitvqa-processed \\
         --agent2-embeddings data/skill_embeddings \\
         --output-dir outputs/pitvqa-sage \\
         --method sft \\
         --base-model allenai/SAGE-MM-Molmo2-8B-SFT_RL \\
-        --push-to-hub matheus-rech/pitvqa-sage-surgical
+        --push-to-hub mmrech/pitvqa-sage-surgical
 
 Reference: https://huggingface.co/blog/hf-skills-training
 """
@@ -133,7 +133,7 @@ class PipelineConfig:
 
     # Output
     output_dir: str = "outputs/pitvqa-sage"
-    output_model_name: str = "matheus-rech/pitvqa-sage-surgical"
+    output_model_name: str = "mmrech/pitvqa-sage-surgical"
 
     # Training method
     method: TrainingMethod = TrainingMethod.SFT
@@ -310,7 +310,7 @@ class PitVQASAGEPipeline:
         # Load Agent 1 dataset to get frame paths
         logger.info(f"Loading frames from: {self.config.agent1_dataset}")
 
-        if self.config.agent1_dataset.startswith("matheus-rech/"):
+        if self.config.agent1_dataset.startswith("mmrech/"):
             dataset = load_dataset(self.config.agent1_dataset, split="train")
         else:
             dataset = load_from_disk(self.config.agent1_dataset)
@@ -522,13 +522,13 @@ def main():
 Examples:
     # Full pipeline with SFT
     python -m agent3_sage_finetuning.pitvqa_agent3_sage_finetuning \\
-        --input-dataset matheus-rech/pitvqa-processed \\
+        --input-dataset mmrech/pitvqa-processed \\
         --output-dir outputs/pitvqa-sage \\
         --method sft
 
     # GRPO training with custom rewards
     python -m agent3_sage_finetuning.pitvqa_agent3_sage_finetuning \\
-        --input-dataset matheus-rech/pitvqa-processed \\
+        --input-dataset mmrech/pitvqa-processed \\
         --output-dir outputs/pitvqa-sage-grpo \\
         --method grpo \\
         --epochs 5
@@ -536,7 +536,7 @@ Examples:
     # Only generate training config (skip annotation/conversion)
     python -m agent3_sage_finetuning.pitvqa_agent3_sage_finetuning \\
         --stages training \\
-        --input-dataset matheus-rech/pitvqa-processed \\
+        --input-dataset mmrech/pitvqa-processed \\
         --output-dir outputs/pitvqa-sage
         """
     )
@@ -548,7 +548,7 @@ Examples:
                        help="Agent 2 output: skill embeddings path")
     parser.add_argument("--output-dir", default="outputs/pitvqa-sage",
                        help="Output directory for all artifacts")
-    parser.add_argument("--output-model", default="matheus-rech/pitvqa-sage-surgical",
+    parser.add_argument("--output-model", default="mmrech/pitvqa-sage-surgical",
                        help="Name for the fine-tuned model on HuggingFace")
 
     # Model selection

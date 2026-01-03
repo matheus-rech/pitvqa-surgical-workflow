@@ -17,11 +17,11 @@ Components:
 Usage:
     # Full pipeline execution
     python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
-        --input-dataset matheus-rech/pitvqa-processed \
+        --input-dataset mmrech/pitvqa-processed \
         --output-dir data/skill_embeddings \
         --vision-model clip-vit-l-14 \
         --batch-size 32 \
-        --push-to-hub matheus-rech/pitvqa-skills
+        --push-to-hub mmrech/pitvqa-skills
 
     # Programmatic usage
     from agent2_skill_extraction import (

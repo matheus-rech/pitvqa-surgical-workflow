@@ -252,7 +252,7 @@ class MolmoDataConverter:
         if not HAS_DATASETS:
             raise ImportError("datasets library required: pip install datasets")
 
-        if dataset_path.startswith("matheus-rech/"):
+        if dataset_path.startswith("mmrech/"):
             # Load from HuggingFace Hub
             return load_dataset(dataset_path, split=split)
         else:

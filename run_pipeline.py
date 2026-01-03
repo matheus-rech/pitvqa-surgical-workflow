@@ -269,9 +269,9 @@ def main():
                        help="Path to videos.zip")
     parser.add_argument("--frames-dir", default="data/processed/frames",
                        help="Directory to extract frames")
-    parser.add_argument("--output-dataset", default="matheus-rech/pitvqa-sage-sft",
+    parser.add_argument("--output-dataset", default="mmrech/pitvqa-sage-sft",
                        help="HuggingFace dataset ID for output")
-    parser.add_argument("--output-model", default="matheus-rech/pitvqa-sage-surgical",
+    parser.add_argument("--output-model", default="mmrech/pitvqa-sage-surgical",
                        help="HuggingFace model ID for training output")
     parser.add_argument("--hf-token", default=os.environ.get("HF_TOKEN"),
                        help="HuggingFace token")

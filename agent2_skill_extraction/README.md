@@ -8,7 +8,7 @@ Agent 2 handles surgical skill extraction and embedding generation for the PitVQ
 
 ```
 Agent 1 Output                 HuggingFace Dataset
-(109k frames)                  (matheus-rech/pitvqa-processed)
+(109k frames)                  (mmrech/pitvqa-processed)
         │                               │
         └───────────────┬───────────────┘
                         │
@@ -54,7 +54,7 @@ Agent 1 Output                 HuggingFace Dataset
                         │
                         ▼
             HuggingFace Dataset
-            (matheus-rech/pitvqa-skills)
+            (mmrech/pitvqa-skills)
 ```
 
 ## Quick Start
@@ -76,7 +76,7 @@ pip install numpy
 ```bash
 # Process from HuggingFace dataset
 python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --output-dir data/skill_embeddings \
     --vision-model clip-vit-l-14 \
     --batch-size 32
@@ -93,9 +93,9 @@ python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
 
 ```bash
 python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --output-dir data/skill_embeddings \
-    --push-to-hub matheus-rech/pitvqa-skills \
+    --push-to-hub mmrech/pitvqa-skills \
     --hf-token $HF_TOKEN
 ```
 
@@ -103,7 +103,7 @@ python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
 
 ```bash
 python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --output-dir data/skill_embeddings \
     --streaming \
     --max-samples 10000
@@ -307,7 +307,7 @@ dataset = load_from_disk("data/skill_embeddings/hf_dataset")
 ```python
 from datasets import load_dataset
 
-dataset = load_dataset("matheus-rech/pitvqa-skills")
+dataset = load_dataset("mmrech/pitvqa-skills")
 ```
 
 ## Expected Outputs
@@ -327,12 +327,12 @@ The pipeline supports automatic checkpointing for fault tolerance:
 ```bash
 # Resume from last checkpoint (default)
 python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --output-dir data/skill_embeddings
 
 # Start fresh (ignore checkpoints)
 python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --output-dir data/skill_embeddings \
     --no-resume
 ```
@@ -345,13 +345,13 @@ Checkpoints are saved to `.checkpoints/` in the output directory.
 ```bash
 # Reduce batch size
 python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --output-dir data/skill_embeddings \
     --batch-size 8
 
 # Use CPU
 python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --output-dir data/skill_embeddings \
     --device cpu
 ```
@@ -373,7 +373,7 @@ huggingface-cli login
 # Or use token directly
 export HF_TOKEN=your_token_here
 python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
-    --push-to-hub matheus-rech/pitvqa-skills \
+    --push-to-hub mmrech/pitvqa-skills \
     --hf-token $HF_TOKEN
 ```
 

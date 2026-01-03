@@ -15,11 +15,11 @@ Pipeline stages:
 
 Usage:
     python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \
-        --input-dataset matheus-rech/pitvqa-processed \
+        --input-dataset mmrech/pitvqa-processed \
         --output-dir data/skill_embeddings \
         --vision-model clip-vit-l-14 \
         --batch-size 32 \
-        --push-to-hub matheus-rech/pitvqa-skills
+        --push-to-hub mmrech/pitvqa-skills
 
 Target outputs:
     - 109k frame embeddings (768-dim)
@@ -1656,7 +1656,7 @@ def parse_args() -> argparse.Namespace:
 Examples:
   # Process from HuggingFace dataset
   python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \\
-      --input-dataset matheus-rech/pitvqa-processed \\
+      --input-dataset mmrech/pitvqa-processed \\
       --output-dir data/skill_embeddings \\
       --vision-model clip-vit-l-14 \\
       --batch-size 32
@@ -1669,13 +1669,13 @@ Examples:
 
   # Push to HuggingFace Hub
   python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \\
-      --input-dataset matheus-rech/pitvqa-processed \\
+      --input-dataset mmrech/pitvqa-processed \\
       --output-dir data/skill_embeddings \\
-      --push-to-hub matheus-rech/pitvqa-skills
+      --push-to-hub mmrech/pitvqa-skills
 
   # Use streaming for large datasets
   python -m agent2_skill_extraction.pitvqa_agent2_skill_extraction \\
-      --input-dataset matheus-rech/pitvqa-processed \\
+      --input-dataset mmrech/pitvqa-processed \\
       --output-dir data/skill_embeddings \\
       --streaming \\
       --max-samples 10000
@@ -1687,7 +1687,7 @@ Examples:
     input_group.add_argument(
         "--input-dataset",
         type=str,
-        help="HuggingFace dataset ID (e.g., 'matheus-rech/pitvqa-processed')"
+        help="HuggingFace dataset ID (e.g., 'mmrech/pitvqa-processed')"
     )
     input_group.add_argument(
         "--input-dir",

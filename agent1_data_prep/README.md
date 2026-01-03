@@ -70,7 +70,7 @@ python -m agent1_data_prep.pitvqa_agent1_data_prep \
     --video-dir data/raw/pitvqa/videos \
     --annotation-dir data/raw/pitvqa/annotations \
     --output-dir data/processed \
-    --push-to-hub matheus-rech/pitvqa-processed \
+    --push-to-hub mmrech/pitvqa-processed \
     --hf-token $HF_TOKEN
 ```
 

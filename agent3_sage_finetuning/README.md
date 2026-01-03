@@ -82,7 +82,7 @@ Agent 1 Output                    Agent 2 Output
                           │
                           ▼
                PitVQA-SAGE Model
-       (matheus-rech/pitvqa-sage-surgical)
+       (mmrech/pitvqa-sage-surgical)
 ```
 
 ## Quick Start
@@ -108,7 +108,7 @@ pip install nltk rouge_score bert_score
 ```bash
 # Run complete pipeline with SFT training
 python -m agent3_sage_finetuning.pitvqa_agent3_sage_finetuning \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --agent2-embeddings data/skill_embeddings \
     --output-dir outputs/pitvqa-sage \
     --method sft \
@@ -124,7 +124,7 @@ After running the pipeline, use the generated prompt with Claude Code:
 # 1. Generate training config
 python -m agent3_sage_finetuning.pitvqa_agent3_sage_finetuning \
     --stages training \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --output-dir outputs/pitvqa-sage
 
 # 2. The pipeline outputs a prompt at: outputs/pitvqa-sage/hf_skills_prompt.txt
@@ -134,10 +134,10 @@ python -m agent3_sage_finetuning.pitvqa_agent3_sage_finetuning \
 Example HF Skills prompt generated:
 
 ```
-Fine-tune allenai/SAGE-MM-Molmo2-8B-SFT_RL on matheus-rech/pitvqa-sage-sft-data
+Fine-tune allenai/SAGE-MM-Molmo2-8B-SFT_RL on mmrech/pitvqa-sage-sft-data
 
 Configuration:
-- Output model: matheus-rech/pitvqa-sage-surgical
+- Output model: mmrech/pitvqa-sage-surgical
 - Epochs: 3
 - Batch size: 4
 - Learning rate: 2e-05
@@ -154,7 +154,7 @@ Best for: Initial fine-tuning with high-quality surgical annotations
 
 ```bash
 python -m agent3_sage_finetuning.pitvqa_agent3_sage_finetuning \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --method sft \
     --epochs 3
 ```
@@ -176,7 +176,7 @@ Best for: Aligning model to prefer correct identifications over incorrect ones
 
 ```bash
 python -m agent3_sage_finetuning.pitvqa_agent3_sage_finetuning \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --method dpo \
     --epochs 2
 ```
@@ -197,7 +197,7 @@ Best for: RL-based training with verifiable surgical rewards
 
 ```bash
 python -m agent3_sage_finetuning.pitvqa_agent3_sage_finetuning \
-    --input-dataset matheus-rech/pitvqa-processed \
+    --input-dataset mmrech/pitvqa-processed \
     --method grpo \
     --epochs 5
 ```
@@ -222,11 +222,11 @@ from agent3_sage_finetuning import MolmoDataConverter, TrainingMethod
 
 converter = MolmoDataConverter()
 dataset = converter.create_surgical_vqa_dataset(
-    agent1_path="matheus-rech/pitvqa-processed",
+    agent1_path="mmrech/pitvqa-processed",
     agent2_path="data/skill_embeddings",
     training_method=TrainingMethod.SFT,
     output_path="data/sft_dataset",
-    push_to_hub="matheus-rech/pitvqa-sage-sft"
+    push_to_hub="mmrech/pitvqa-sage-sft"
 )
 ```
 
@@ -263,8 +263,8 @@ from agent3_sage_finetuning import create_surgical_vqa_trainer
 
 trainer = create_surgical_vqa_trainer(
     base_model="allenai/SAGE-MM-Molmo2-8B-SFT_RL",
-    dataset_id="matheus-rech/pitvqa-sage-sft",
-    output_name="matheus-rech/pitvqa-sage-surgical",
+    dataset_id="mmrech/pitvqa-sage-sft",
+    output_name="mmrech/pitvqa-sage-surgical",
     method="sft",
     num_epochs=3
 )
@@ -284,7 +284,7 @@ Evaluates fine-tuned models:
 from agent3_sage_finetuning import SurgicalVQAEvaluator
 
 evaluator = SurgicalVQAEvaluator(
-    model_path="matheus-rech/pitvqa-sage-surgical",
+    model_path="mmrech/pitvqa-sage-surgical",
     device="cuda"
 )
 

@@ -653,7 +653,7 @@ def run_evaluation(
 ):
     """CLI-friendly evaluation function."""
     # Load dataset
-    if dataset_path.startswith("matheus-rech/"):
+    if dataset_path.startswith("mmrech/"):
         dataset = load_dataset(dataset_path, split="test")
     else:
         dataset = load_from_disk(dataset_path)

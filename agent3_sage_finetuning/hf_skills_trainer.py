@@ -790,8 +790,8 @@ Configuration:
 
 def create_surgical_vqa_trainer(
     base_model: str = "allenai/SAGE-MM-Molmo2-8B-SFT_RL",
-    dataset_id: str = "matheus-rech/pitvqa-sage-sft",
-    output_name: str = "matheus-rech/pitvqa-sage-surgical",
+    dataset_id: str = "mmrech/pitvqa-sage-sft",
+    output_name: str = "mmrech/pitvqa-sage-surgical",
     method: str = "sft",
     num_epochs: int = 3,
     push_to_hub: bool = True
