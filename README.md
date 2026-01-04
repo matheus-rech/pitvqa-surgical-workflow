@@ -1,3 +1,5 @@
+<a href="https://deepwiki.com/matheus-rech/pitvqa-surgical-workflow"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+
 # PitVQA Surgical Workflow
 
 **Unified Vision-Language Model for Multi-Task Surgical Understanding**
