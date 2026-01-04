@@ -1,0 +1,21 @@
+
+\begin{table}[htbp]
+\centering
+\caption{Inter-Rater Reliability Metrics for Surgical Video Annotation}
+\label{tab:irr}
+\begin{tabular}{lcccc}
+\toprule
+Comparison & Overlap (n) & Cohen's $\kappa$ & Label Match & Spatial Dist. \\
+\midrule
+gemini vs vs vs gpt & 394 & 0.006 & 1.0% & 14.9 \\
+gemini vs vs vs grok & 4 & - & - & - \\
+gpt vs vs vs grok & 12 & - & - & 15.9 \\
+
+\midrule
+\multicolumn{5}{l}{\textit{Multi-rater metrics (all 3 sources):}} \\
+Krippendorff's $\alpha$ & \multicolumn{4}{c}{-0.008} \\
+Fleiss' $\kappa$ & \multicolumn{4}{c}{-0.1} \\
+
+\bottomrule
+\end{tabular}
+\end{table}

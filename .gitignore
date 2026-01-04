@@ -70,3 +70,19 @@ notebooks/data/pitvqa_download/
 notebooks/data/pitvqa_data/
 *.zip
 colab_*.png
+
+# Generated outputs
+evaluation_results/
+anatomy_review_visualizations/
+model_demo_report.html
+anatomy_review_state.json
+anatomy_reviewed_annotations.json
+validation_results.json
+
+# HuggingFace cache
+*.cache
+.huggingface/
+
+# Training outputs
+pitvqa-qwen2vl-unified/
+checkpoints/

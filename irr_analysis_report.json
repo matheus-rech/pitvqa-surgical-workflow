@@ -1,0 +1,88 @@
+{
+  "summary": {
+    "krippendorff_alpha": -0.008,
+    "fleiss_kappa": -0.1,
+    "total_overlap_all3": 4,
+    "sources": [
+      "gemini",
+      "gpt",
+      "grok"
+    ],
+    "annotation_counts": {
+      "gemini": 1054,
+      "gpt": 1272,
+      "grok": 47
+    }
+  },
+  "pairwise": {
+    "gemini_vs_gpt": {
+      "overlap": 394,
+      "cohens_kappa": 0.006,
+      "label_exact_match": 0.01,
+      "spatial": {
+        "euclidean_mean": 14.874,
+        "euclidean_std": 11.906,
+        "within_10pct": 0.424,
+        "within_15pct": 0.581,
+        "n_pairs": 394
+      },
+      "quadrant_agreement": 0.569
+    },
+    "gemini_vs_grok": {
+      "overlap": 4,
+      "insufficient": true
+    },
+    "gpt_vs_grok": {
+      "overlap": 12,
+      "cohens_kappa": 0.0,
+      "label_exact_match": 0.0,
+      "spatial": {
+        "euclidean_mean": 15.863,
+        "euclidean_std": 11.107,
+        "within_10pct": 0.417,
+        "within_15pct": 0.583,
+        "n_pairs": 12
+      },
+      "quadrant_agreement": 0.667
+    }
+  },
+  "spatial": {},
+  "by_category": {
+    "instruments": {
+      "total": {
+        "gemini": 221,
+        "gpt": 379,
+        "grok": 8
+      },
+      "overlap": {
+        "gemini_gpt": 165,
+        "gemini_grok": 2,
+        "gpt_grok": 5
+      }
+    },
+    "anatomy": {
+      "total": {
+        "gemini": 833,
+        "gpt": 778,
+        "grok": 26
+      },
+      "overlap": {
+        "gemini_gpt": 229,
+        "gemini_grok": 2,
+        "gpt_grok": 5
+      }
+    },
+    "events": {
+      "total": {
+        "gemini": 0,
+        "gpt": 115,
+        "grok": 13
+      },
+      "overlap": {
+        "gemini_gpt": 0,
+        "gemini_grok": 0,
+        "gpt_grok": 2
+      }
+    }
+  }
+}
